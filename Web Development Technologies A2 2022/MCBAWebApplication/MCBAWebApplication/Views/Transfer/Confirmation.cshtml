@@ -1,0 +1,46 @@
+﻿@using MCBAWebApplication.Models;
+@model Account
+@{
+    ViewData["Title"] = "Confirmation";
+}
+
+<h1 class="display4">Account Number @Model.AccountNumber (@Model.AccountType)</h1>
+
+<div class="row">
+    <div class = "col-md-4">
+        <table class = "table">
+            <tr>
+                <th>@Html.DisplayNameFor(x => x.AccountNumber)</th>
+                <th>Destination Account</th>
+                <th>Amount</th>
+                <th>Comment</th>
+            </tr>
+            <tr>
+                <td>@Html.DisplayFor(x => x.AccountNumber)</td>
+                <td>@ViewBag.destAccountNumber</td>
+                <td>@ViewBag.amount.ToString("0.00")</td>
+                <td>@ViewBag.comments</td>
+            </tr>
+        </table>
+        <br />
+        <table>
+            <tr>
+                <th>
+                    <form asp-action="Transfer" asp-route-id="@Model.AccountNumber">
+                        <div class="form-group">
+                            <input id = "destAccountNumber" name="destAccountNumber" type="hidden" value="@ViewBag.destAccountNumber" />
+                            <input id = "amount" name ="amount" type = "hidden" value="@ViewBag.amount" />
+                            <input id = "comments" name = "comments" type = "hidden" value = "@ViewBag.comments" />
+                            <input id = "transactions" name = "transactions" type = "hidden" value ="@ViewBag.transactions" />
+                            <input type ="submit" value ="Confirm" class="btn-primary" />
+                        </div>
+                    </form>
+                </th>
+                <th>
+                    <a class = "btn-primary"
+                        asp-action="Index" asp-route-id="@Model.AccountNumber">Cancel</a>
+                </th>
+            </tr>
+        </table>
+    </div>
+</div>

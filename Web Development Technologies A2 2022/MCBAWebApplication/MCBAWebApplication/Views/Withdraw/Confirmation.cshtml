@@ -1,0 +1,45 @@
+﻿@using MCBAWebApplication.Models;
+@model Account
+@{
+    ViewData["Title"] = "Confirmation";
+}
+
+<h1 class="display4">Account Number @Model.AccountNumber (@Model.AccountType)</h1>
+
+@ViewBag.transactions
+
+<div class="row">
+    <div class = "col-md-4">
+        <table class = "table">
+            <tr>
+                <th>@Html.DisplayNameFor(x => x.AccountNumber)</th>
+                <th>Amount</th>
+                <th>Comment</th>
+            </tr>
+            <tr>
+                <td>@Html.DisplayFor(x => x.AccountNumber)</td>
+                <td>@ViewBag.Amount.ToString("0.00")</td>
+                <td>@ViewBag.Comment</td>
+            </tr>
+        </table>
+        <br />
+        <table>
+            <tr>
+                <th>
+                    <form asp-action="Withdraw" asp-route-id="@Model.AccountNumber">
+                        <div class="form-group">
+                            <input id = "amount" name ="amount" type = "hidden" value="@ViewBag.amount" />
+                            <input id = "comment" name = "comment" type = "hidden" value = "@ViewBag.comment" />
+                            <input id = "transactions" name = "transactions" type = "hidden" value ="@ViewBag.transactions" />
+                            <input type ="submit" value ="Confirm" class="btn-primary" />
+                        </div>
+                    </form>
+                </th>
+                <th>
+                    <a class = "btn-primary"
+                        asp-action="Index" asp-route-id="@Model.AccountNumber">Cancel</a>
+                </th>
+            </tr>
+        </table>
+    </div>
+</div>

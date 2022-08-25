@@ -1,0 +1,40 @@
+﻿@model X.PagedList.IPagedList<MCBAWebApplication.Models.Transaction>
+@using X.PagedList.Mvc.Core;
+
+@{
+    ViewData["Title"] = "MyStatements";
+}
+
+<div>
+    Balance: @ViewBag.Balance?.ToString("0.00")
+
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(x => x[0].Amount)</th>
+            <th>@Html.DisplayNameFor(x => x[0].DestinationAccount)</th>
+            <th>@Html.DisplayNameFor(x => x[0].TransactionType)</th>
+            <th>@Html.DisplayNameFor(x => x[0].Comment)</th>
+            <th>Transaction Time</th>
+            <th></th>
+        </tr>
+
+    @foreach (var transaction in Model){
+        DateTime dateTime = transaction.TransactionTimeUTC.ToLocalTime();
+        <tr>
+            <td>@Html.DisplayFor(x => transaction.Amount)</td>
+            <td>@Html.DisplayFor(x => transaction.DestinationAccountNumber)</td>
+            <td>@Html.DisplayFor(x => transaction.TransactionType)</td>
+            <td>@Html.DisplayFor(x => transaction.Comment)</td>
+            <td>@Html.DisplayFor(x => dateTime)</td>
+        </tr>
+    }
+    </table>
+</div>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("MyStatements", new{page}))
+
+<div>
+    <a asp-controller="Customer" asp-action="Index">Back to List</a>
+</div>

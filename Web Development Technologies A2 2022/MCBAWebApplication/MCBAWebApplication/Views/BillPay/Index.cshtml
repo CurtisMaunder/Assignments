@@ -1,0 +1,82 @@
+﻿@model List<BillPay>
+@using System.Web.Mvc.Html;
+@using MCBAWebApplication.Models;
+@{
+    ViewData["Title"] = "BillPay";
+
+}
+<h1>BillPay</h1>
+
+<div>
+    <h3>Scheduled Payments</h3>
+    <table class = "table">
+        <tr>
+            <th>Amount</th>
+            <th>Schedule Time</th>
+            <th>Period</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+        @foreach(var payment in Model) {
+            if(payment.Status != Status.Success) {
+                <tr>
+                    <td>@Html.DisplayFor(x => payment.Amount)</td>
+                    <td>@Html.DisplayFor(x => payment.ScheduleTimeUtc)</td>
+                    <td>@Html.DisplayFor(x => payment.Period)</td>
+                    <td>@Html.DisplayFor(x => payment.Status)</td>
+                    <td>
+                        @{
+                            if(payment.Status == Status.Awaiting) {
+                                <form asp-action="Delete" asp-route-id="@payment.BillPayId">
+                                    <input type ="submit" value ="Cancel" class="btn-primary" />
+                                </form>
+						
+						        <form asp-action="Edit" asp-route-id="@payment.BillPayId">
+                                    <input type ="submit" value ="Edit" class="btn-primary" />
+                                </form>
+                            }
+                            else if(payment.Status == Status.Frozen) {
+                                <form asp-action="Delete" asp-route-id="@payment.BillPayId">
+                                    <input type ="submit" value ="Cancel" class="btn-primary" />
+                                </form>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <br />
+    <h3>Resolved Payments</h3>
+    <table class = "table">
+        <tr>
+            <th>Amount</th>
+            <th>Schedule Time</th>
+            <th>Period</th>
+            <th>Status</th>
+        </tr>
+        @foreach(var payment in Model) {
+            if(payment.Status == Status.Success) {
+                <tr>
+                    <td>@Html.DisplayFor(x => payment.Amount)</td>
+                    <td>@Html.DisplayFor(x => payment.ScheduleTimeUtc)</td>
+                    <td>@Html.DisplayFor(x => payment.Period)</td>
+                    <td>@Html.DisplayFor(x => payment.Status)</td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+<div>
+    <a class="btn btn-primary"
+        asp-action="Create" asp-route-id="@ViewBag.AccountNumber">Add new payment</a>
+</div>
+
+<div>
+    <a asp-controller="Customer" asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

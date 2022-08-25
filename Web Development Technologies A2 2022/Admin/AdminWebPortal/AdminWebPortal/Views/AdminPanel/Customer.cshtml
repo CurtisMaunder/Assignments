@@ -1,0 +1,38 @@
+﻿@model Customer
+@{
+    ViewData["Title"] = "Admin Panel - Customer Management";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome Administrator</h1>
+    @Html.DisplayFor(x => Model.Name)
+</div>
+
+<p>
+    <a asp-controller="Details" asp-action="Index">Customer Details</a>
+</p>
+
+<h3>Account management for @Html.DisplayFor(x=> Model.Name)</h3>
+<table class ="table">
+    <tr>
+        <th>@Html.DisplayNameFor(x=> x.Accounts[0].AccountNumber)</th>
+        <th>@Html.DisplayNameFor(x=> x.Accounts[0].AccountType)</th>
+        <th></th>
+    </tr>
+    @foreach(var account in Model.Accounts) {
+        <tr>
+            <td>@Html.DisplayFor(x => account.AccountNumber)</td>
+            <td>@Html.DisplayFor(x => account.AccountType)</td>
+            <td>
+                <a asp-action="Transactions" asp-route-id="@account.AccountNumber">View Transactions</a>
+            </td>
+            <td>
+                <a asp-controller="BillPay" asp-action="Index" asp-route-id="@account.AccountNumber">Account BillPay</a>
+            </td>
+        </tr>
+    }
+</table>
+
+<p>
+    <a asp-controller="AdminPanel" asp-action="Index">Back to customer select</a>
+</p>

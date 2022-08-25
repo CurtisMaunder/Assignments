@@ -1,0 +1,33 @@
+﻿@model List<Transaction>
+
+@{
+    ViewData["Title"] = "Transactions";
+}
+
+<h1>Transactions</h1>
+
+<div>
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(x => x[0].AccountNumber)</th>
+            <th>@Html.DisplayNameFor(x => x[0].DestinationAccountNumber)</th>
+            <th>@Html.DisplayNameFor(x => x[0].TransactionType)</th>
+            <th>@Html.DisplayNameFor(x => x[0].Amount)</th>
+            <th>@Html.DisplayNameFor(x => x[0].Comment)</th>
+            <th>@Html.DisplayNameFor(x => x[0].TransactionTimeUTC)</th>
+        </tr>
+        @foreach(var transaction in Model) {
+            <tr>
+                <td>@Html.DisplayFor(x => transaction.AccountNumber)</td>
+                <td>@Html.DisplayFor(x => transaction.DestinationAccountNumber)</td>
+                <td>@Html.DisplayFor(x => transaction.TransactionType)</td>
+                <td>@Html.DisplayFor(x => transaction.Amount)</td>
+                <td>@Html.DisplayFor(x => transaction.Comment)</td>
+                <td>@Html.DisplayFor(x => transaction.TransactionTimeUTC)</td>
+            </tr>
+        }
+    </table>
+</div>
+<div>
+    <a asp-action="Customer">Back to List</a>
+</div>
